@@ -1,0 +1,73 @@
+# hiring-app
+
+このプロジェクトはOpenAI APIを利用したアプリケーションです。  
+以下の手順でローカル開発環境を構築できます。
+
+---
+
+## 必要要件
+
+- Node.js（推奨: 最新LTSバージョン）
+- npm または yarn
+
+---
+
+## 環境構築手順
+
+### 1. リポジトリのクローン
+
+```bash
+git clone https://github.com/あなたのユーザー名/hiring-app.git
+cd hiring-app
+```
+
+### 2. Node.jsのインストール確認
+
+```bash
+node -v
+```
+バージョンが表示されればOKです。
+
+### 3. 依存パッケージのインストール
+
+```bash
+npm install
+```
+または
+```bash
+yarn
+```
+
+### 4. 環境変数ファイル（.env）の作成
+
+プロジェクトルートに`.env`ファイルを作成し、以下のようにOpenAI APIキーを記載してください。
+
+```properties
+VITE_OPENAI_API_KEY=your_openai_api_key_here
+```
+
+> `.env.example`がある場合はコピーして使ってください。
+
+### 5. 開発サーバーの起動
+
+```bash
+npm run dev
+```
+または
+```bash
+yarn dev
+```
+
+### 6. ブラウザでアクセス
+
+通常は http://localhost:5173 でアプリケーションが動作します。
+
+---
+
+## 注意事項
+- `.env`ファイルは**絶対にGitにコミットしない**（`.gitignore`で除外されています）
+- OpenAI APIキーは厳重に管理してください
+---
+
+## ライセンス
+このプロジェクトのライセンスについては、`LICENSE`ファイルをご確認ください。
