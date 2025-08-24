@@ -12,36 +12,30 @@ export interface Candidate {
   appliedPosition: JobType;
   createdAt: Date;
   updatedAt: Date;
-  // SPI適性検査結果を追加
   spiResults?: SPIResults;
-  // 面接フェーズ情報を追加
   interviewPhase?: InterviewPhase;
-  // 面接議事録を追加
   interviewMinutes?: InterviewMinutes[];
-  // 履歴書・職務経歴書を追加
   documents?: CandidateDocuments;
 }
 
-// 候補者の書類情報
 export interface CandidateDocuments {
-  resume?: DocumentFile; // 履歴書
-  careerHistory?: DocumentFile; // 職務経歴書
-  coverLetter?: DocumentFile; // 志望動機書
-  portfolio?: DocumentFile; // ポートフォリオ
-  others?: DocumentFile[]; // その他の書類
+  resume?: DocumentFile;
+  careerHistory?: DocumentFile;
+  coverLetter?: DocumentFile;
+  portfolio?: DocumentFile;
+  others?: DocumentFile[];
 }
 
 export interface DocumentFile {
   id: string;
   name: string;
   type: 'resume' | 'career_history' | 'cover_letter' | 'portfolio' | 'other';
-  content: string; // テキスト内容（OCRまたは手動入力）
+  content: string;
   originalFileName?: string;
   uploadedAt: Date;
-  extractedData?: ExtractedDocumentData; // ChatGPTによる抽出データ
+  extractedData?: ExtractedDocumentData;
 }
 
-// ChatGPTによる書類からの抽出データ
 export interface ExtractedDocumentData {
   personalInfo?: {
     name?: string;
@@ -62,7 +56,7 @@ export interface ExtractedDocumentData {
   motivations?: string[];
   careerGoals?: string[];
   extractedAt: Date;
-  confidence: number; // 抽出の信頼度 0-1
+  confidence: number;
 }
 
 export interface WorkExperience {
@@ -84,14 +78,12 @@ export interface JobTypeConfig {
   name: string;
   description: string;
   evaluationCriteria: EvaluationCriterion[];
-  // 面接プロセス情報を追加
   interviewProcess?: {
     phases: InterviewPhase[];
     allowSkipping: boolean;
   };
 }
 
-// 面接議事録の型定義を追加
 export interface InterviewMinutes {
   id: string;
   candidateId: string;
@@ -100,74 +92,65 @@ export interface InterviewMinutes {
   interviewDate: Date;
   interviewer: string;
   interviewerId: string;
-  duration: number; // 分
+  duration: number;
   location: string;
   attendees: string[];
-  
-  // 議事録内容
-  agenda: string; // 面接の目的・アジェンダ
+  agenda: string;
   questions: InterviewQuestion[];
   candidateResponses: CandidateResponse[];
-  interviewerObservations: string; // 面接官の観察・印象
-  keyInsights: string[]; // 重要な洞察
-  concerns: string[]; // 懸念点
-  strengths: string[]; // 強み
-  
-  // 評価
+  interviewerObservations: string;
+  keyInsights: string[];
+  concerns: string[];
+  strengths: string[];
   overallImpression: string;
-  rating: number; // 1-5
+  rating: number;
   recommendation: 'strong_hire' | 'hire' | 'consider' | 'no_hire';
   nextSteps: string;
-  
-  // メタデータ
   createdAt: Date;
   updatedAt: Date;
   isComplete: boolean;
-  // ChatGPTによる自動分析
   aiAnalysis?: InterviewAIAnalysis;
 }
 
-// ChatGPTによる面接議事録の自動分析
 export interface InterviewAIAnalysis {
-  overallAssessment: string; // 総合評価
-  strengthsIdentified: string[]; // 特定された強み
-  concernsIdentified: string[]; // 特定された懸念点
+  overallAssessment: string;
+  strengthsIdentified: string[];
+  concernsIdentified: string[];
   skillsAssessment: {
-    communication: number; // 1-5
+    communication: number;
     technicalSkills: number;
     problemSolving: number;
     culturalFit: number;
     motivation: number;
   };
-  recommendedQuestions: string[]; // 次回面接での推奨質問
-  redFlags: string[]; // 注意すべき点
-  positiveSignals: string[]; // ポジティブなシグナル
-  confidenceLevel: number; // 分析の信頼度 0-1
+  recommendedQuestions: string[];
+  redFlags: string[];
+  positiveSignals: string[];
+  confidenceLevel: number;
   analyzedAt: Date;
 }
 
 export interface InterviewQuestion {
   id: string;
   question: string;
-  purpose: string; // 質問の目的
-  targetCriteria: string[]; // 評価対象の基準
-  response: string; // 候補者の回答
-  followUpQuestions?: string[]; // 追加質問
-  evaluatorNotes: string; // 面接官のメモ
-  score?: number; // 1-5の評価
+  purpose: string;
+  targetCriteria: string[];
+  response: string;
+  followUpQuestions?: string[];
+  evaluatorNotes: string;
+  score?: number;
 }
 
 export interface CandidateResponse {
   questionId: string;
   response: string;
-  clarity: number; // 回答の明確さ 1-5
-  depth: number; // 回答の深さ 1-5
-  relevance: number; // 質問との関連性 1-5
-  enthusiasm: number; // 熱意・積極性 1-5
-  notes: string; // 追加メモ
+  clarity: number;
+  depth: number;
+  relevance: number;
+  enthusiasm: number;
+  notes: string;
 }
 
-// 面接管理の型定義を追加
 export interface Interview {
   id: string;
   candidateId: string;
@@ -178,19 +161,17 @@ export interface Interview {
   interviewerEmail: string;
   phase: 'casual' | 'first' | 'second' | 'final';
   scheduledAt: Date;
-  duration: number; // 分
+  duration: number;
   location: string;
   meetingUrl?: string;
   status: 'scheduled' | 'completed' | 'cancelled' | 'rescheduled';
   notes?: string;
   feedback?: string;
-  rating?: number; // 1-5
+  rating?: number;
   nextPhase?: 'first' | 'second' | 'final' | 'offer' | 'reject';
   createdAt: Date;
   updatedAt: Date;
-  // 簡素化：Google Calendar連携を削除
   reminderSent?: boolean;
-  // 議事録への参照
   minutesId?: string;
 }
 
@@ -198,11 +179,10 @@ export interface InterviewPhase {
   id?: 'casual' | 'first' | 'second' | 'final';
   name?: string;
   description?: string;
-  duration?: number; // デフォルト時間（分）
+  duration?: number;
   required?: boolean;
   canSkip?: boolean;
-  interviewers?: string[]; // 面接官の役職・部署
-  // 候補者の面接フェーズ状態
+  interviewers?: string[];
   currentPhase?: InterviewPhaseType;
   status?: 'scheduled' | 'completed' | 'pending';
   notes?: string;
@@ -211,7 +191,6 @@ export interface InterviewPhase {
 
 export type InterviewPhaseType = 'casual_interview' | 'first_interview' | 'second_interview' | 'final_interview' | 'completed';
 
-// 面接記録の型定義
 export interface InterviewRecord {
   id: string;
   phase: InterviewPhaseType;
@@ -231,19 +210,18 @@ export interface InterviewRecord {
 }
 
 export interface InterviewEvaluation {
-  overallRating: number; // 1-5
+  overallRating: number;
   strengths: string[];
   concerns: string[];
   recommendation: 'strong_hire' | 'hire' | 'consider' | 'no_hire';
-  culturalFit: number; // 1-5
-  technicalSkills: number; // 1-5
-  communicationSkills: number; // 1-5
-  motivation: number; // 1-5
-  teamFit: number; // 1-5
+  culturalFit: number;
+  technicalSkills: number;
+  communicationSkills: number;
+  motivation: number;
+  teamFit: number;
   comments: string;
 }
 
-// 求人票情報を追加
 export interface JobPosting {
   id: string;
   jobType: JobType;
@@ -263,10 +241,9 @@ export interface JobPosting {
     qualifications: string[];
     languages: string[];
   };
-  // 新しく追加する要件
-  essentialRequirements: string[]; // 必須要件
-  preferredRequirements: string[]; // 歓迎要件
-  idealCandidate: string[]; // 求める人物像
+  essentialRequirements: string[];
+  preferredRequirements: string[];
+  idealCandidate: string[];
   responsibilities: string[];
   benefits: string[];
   workingConditions: {
@@ -295,7 +272,6 @@ export interface JobPosting {
   createdBy: string;
 }
 
-// 会社情報の型定義
 export interface CompanyInfo {
   id: string;
   companyName: string;
@@ -315,109 +291,100 @@ export interface CompanyInfo {
   additionalContext: string;
   updatedAt: Date;
   updatedBy: string;
-  // 評価基準を追加
   evaluationCriteria?: EvaluationCriterion[];
 }
 
-// スコア説明の型定義を追加
 export interface ScoreDescription {
-  score: number; // 1-4
-  label: string; // 例: "優秀", "良好", "普通", "要改善"
-  description: string; // 詳細説明
+  score: number;
+  label: string;
+  description: string;
 }
 
 export interface EvaluationCriterion {
   id: string;
   name: string;
   description: string;
-  weight: number; // 重み（合計100%）
-  category: '能力経験' | '価値観' | '志向性'; // 新しく追加
-  // スコア説明を追加
+  weight: number;
+  category: '能力経験' | '価値観' | '志向性';
   scoreDescriptions: ScoreDescription[];
 }
 
-// SPI適性検査の結果インターフェース
 export interface SPIResults {
-  testDate: Date; // 受検日
-  language: SPILanguageScore; // 言語能力
-  nonVerbal: SPINonVerbalScore; // 非言語能力
-  personality: SPIPersonalityScore; // 性格検査
-  totalScore: number; // 総合スコア（偏差値）
-  percentile: number; // パーセンタイル順位
-  testVersion: string; // SPI版本（SPI3など）
-  testDuration: number; // 受検時間（分）
-  reliability: 'high' | 'medium' | 'low'; // 回答の信頼性
+  testDate: Date;
+  language: SPILanguageScore;
+  nonVerbal: SPINonVerbalScore;
+  personality: SPIPersonalityScore;
+  totalScore: number;
+  percentile: number;
+  testVersion: string;
+  testDuration: number;
+  reliability: 'high' | 'medium' | 'low';
 }
 
 export interface SPILanguageScore {
-  totalScore: number; // 言語総合スコア（偏差値）
-  vocabulary: number; // 語彙力
-  reading: number; // 読解力
-  grammar: number; // 文法・語法
-  percentile: number; // パーセンタイル順位
+  totalScore: number;
+  vocabulary: number;
+  reading: number;
+  grammar: number;
+  percentile: number;
 }
 
 export interface SPINonVerbalScore {
-  totalScore: number; // 非言語総合スコア（偏差値）
-  calculation: number; // 計算力
-  logic: number; // 論理的思考
-  spatial: number; // 空間把握
-  dataAnalysis: number; // データ分析
-  percentile: number; // パーセンタイル順位
+  totalScore: number;
+  calculation: number;
+  logic: number;
+  spatial: number;
+  dataAnalysis: number;
+  percentile: number;
 }
 
 export interface SPIPersonalityScore {
-  // 行動特性
   behavioral: {
-    leadership: number; // リーダーシップ
-    teamwork: number; // チームワーク
-    initiative: number; // 積極性
-    persistence: number; // 粘り強さ
-    adaptability: number; // 適応性
-    communication: number; // コミュニケーション
+    leadership: number;
+    teamwork: number;
+    initiative: number;
+    persistence: number;
+    adaptability: number;
+    communication: number;
   };
-  // 思考特性
   cognitive: {
-    analytical: number; // 分析的思考
-    creative: number; // 創造的思考
-    practical: number; // 実践的思考
-    strategic: number; // 戦略的思考
+    analytical: number;
+    creative: number;
+    practical: number;
+    strategic: number;
   };
-  // 情緒特性
   emotional: {
-    stability: number; // 情緒安定性
-    stress: number; // ストレス耐性
-    optimism: number; // 楽観性
-    empathy: number; // 共感性
+    stability: number;
+    stress: number;
+    optimism: number;
+    empathy: number;
   };
-  // 職務適性
   jobFit: {
-    sales: number; // 営業適性
-    management: number; // 管理適性
-    technical: number; // 技術適性
-    creative: number; // 創造適性
-    service: number; // サービス適性
+    sales: number;
+    management: number;
+    technical: number;
+    creative: number;
+    service: number;
   };
 }
 
 export interface Evaluation {
   candidateId: string;
   jobType: JobType;
-  scores: Record<string, number>; // criterionId -> score (1-4)
+  scores: Record<string, number>;
   comments: Record<string, string>;
   overallComment: string;
   recommendation: 'hire' | 'consider' | 'reject';
   evaluatedAt: Date;
   isComplete: boolean;
-  finalDecision?: 'hired' | 'rejected' | 'pending'; // 実際の採用結果
-  performanceRating?: number; // 採用後のパフォーマンス評価（1-5）
-  evaluatorId?: string; // 評価者ID
-  evaluatorName?: string; // 評価者名
-  // 離職関連データ
-  hireDate?: Date; // 入社日
-  turnoverDate?: Date; // 離職日（離職した場合）
-  turnoverReason?: 'voluntary' | 'involuntary' | 'performance' | 'culture_fit' | 'career_change' | 'other'; // 離職理由
-  isActive?: boolean; // 現在も在籍中かどうか
+  finalDecision?: 'hired' | 'rejected' | 'pending';
+  performanceRating?: number;
+  evaluatorId?: string;
+  evaluatorName?: string;
+  hireDate?: Date;
+  turnoverDate?: Date;
+  turnoverReason?: 'voluntary' | 'involuntary' | 'performance' | 'culture_fit' | 'career_change' | 'other';
+  isActive?: boolean;
 }
 
 export interface MatchingResult {
@@ -430,7 +397,7 @@ export interface MatchingResult {
     score: number;
     comment: string;
   }>;
-  spiAnalysis?: SPIAnalysis; // SPI分析結果を追加
+  spiAnalysis?: SPIAnalysis;
 }
 
 export interface SavedDraft {
@@ -443,17 +410,16 @@ export interface SavedDraft {
   title: string;
 }
 
-// SPI分析結果インターフェース
 export interface SPIAnalysis {
-  jobFitScore: number; // 職種適合度（0-100）
-  strengthAreas: string[]; // 強み領域
-  developmentAreas: string[]; // 改善領域
-  personalityInsights: string[]; // 性格特性の洞察
-  recommendedRole: string; // 推奨役割
-  teamFit: 'high' | 'medium' | 'low'; // チーム適合度
-  managementPotential: number; // 管理職適性（0-100）
-  riskFactors: string[]; // リスク要因
-  recommendations: string[]; // 推奨事項
+  jobFitScore: number;
+  strengthAreas: string[];
+  developmentAreas: string[];
+  personalityInsights: string[];
+  recommendedRole: string;
+  teamFit: 'high' | 'medium' | 'low';
+  managementPotential: number;
+  riskFactors: string[];
+  recommendations: string[];
 }
 
 export interface TrainingData {
@@ -461,7 +427,6 @@ export interface TrainingData {
   evaluation: Evaluation;
   outcome: 'hired' | 'rejected';
   performanceRating?: number;
-  // 離職データを追加
   turnoverData?: {
     turnedOver: boolean;
     daysToTurnover?: number;
@@ -469,7 +434,6 @@ export interface TrainingData {
   };
 }
 
-// 新しい型定義
 export type UserRole = 'recruiter' | 'hr_strategy' | 'admin';
 
 export interface User {
@@ -493,7 +457,7 @@ export interface HiringMetrics {
   hiredCount: number;
   rejectedCount: number;
   pendingCount: number;
-  averageTimeToHire: number; // 日数
+  averageTimeToHire: number;
   averageEvaluationScore: number;
   aiAccuracy: number;
   costPerHire: number;
@@ -507,14 +471,11 @@ export interface HiringMetrics {
     hires: number;
     averageScore: number;
     timeToHire: number;
-    // 離職関連メトリクスを追加
     turnoverRate: number;
     averageTenure: number;
   }>;
-  // 離職関連の全体メトリクス
   overallTurnoverRate: number;
   turnoverByReason: Record<string, number>;
-  // SPI関連メトリクス
   averageSPIScore?: number;
   spiJobFitCorrelation?: number;
 }
@@ -534,7 +495,6 @@ export interface RecruitmentReport {
   recommendations: string[];
 }
 
-// AI予測結果の型定義
 export interface AIPrediction {
   recommendedScore: number;
   confidence: number;
@@ -544,15 +504,13 @@ export interface AIPrediction {
   strengths: string[];
 }
 
-// 類似候補者の型定義
 export interface SimilarCandidate {
   candidate: Candidate;
   evaluation: Evaluation;
-  similarityScore: number; // 0-100
+  similarityScore: number;
   similarityReasons: string[];
 }
 
-// 採用履歴データの型定義
 export interface HiringHistory {
   totalCandidates: number;
   hiredCandidates: number;

@@ -2,7 +2,6 @@ import { EvaluationCriterion, JobType } from '../types';
 
 const STORAGE_KEY = 'hr_tool_evaluation_criteria';
 
-// 評価基準データの保存・取得
 export const saveEvaluationCriteria = (jobType: JobType, criteria: EvaluationCriterion[]): void => {
   const allCriteria = getAllEvaluationCriteria();
   allCriteria[jobType] = criteria;
